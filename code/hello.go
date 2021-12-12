@@ -16,6 +16,27 @@ func main() {
 
 	fmt.Println(a)
 
+	variable()
+
+}
+
+func variable() {
+
+	println("go 中 “&”，“*” 操作符")
+
+	// 变量值
+	var a1 int = 1
+	fmt.Printf("a1: %v\n", a1)
+
+	// & 返回变量实际地址
+	var a2 int = 1
+	fmt.Printf("a2: %v\n", &a2)
+
+	// * 返回指针变量
+	var a3 *int = &a2
+	fmt.Printf("a3: %v\n", a3)
+	fmt.Printf("a3: %v\n", *a3)
+
 }
 
 func init() {
