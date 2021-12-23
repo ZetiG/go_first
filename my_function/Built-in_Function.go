@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 
@@ -8,10 +10,16 @@ func main() {
 	// appendTest()
 
 	// make
-	makeTest()
+	// makeTest()
 
 	// channel、close
 	// closeTest()
+
+	// map
+	// mapTest()
+
+	// copy
+	copyTest()
 
 }
 
@@ -69,6 +77,20 @@ func makeTest() {
 
 	// make 只能应用于slice, map, channel
 
+	// make slice
+	// sli1 := make([]int, 5)       // 创建int类型，长度为5的切片
+	// sli2 := make([]int, 5, 10)   // 创建int类型，长度为5， 容量为10的切片
+	// sli3 := []int{1, 2, 3, 4, 5} // 创建int类型，长度为5 容量为5的切片，如果[3]指定了数值，则代表固定长度的数组而不是切片了
+
+	// make map
+	// mp1 := make(map[string]Object)                            		// key 为string，v为Object类型的map
+	// mp2 := make(map[string]Object, 5)                         		// key 为string，v为Object类型 初始容量为5的map
+	// mp3 := map[string]Object{"key", Object{"aa", "bb", "cc"}} 	// key 为string，v为Object类型 初始容量为5的map
+
+	// make channel
+	// ch1 := make(chan int, 5) // 创建int类型，缓存容量为5的通道
+	// ch2 := make(chan int)    // 创建int类型，无缓存通道
+
 }
 
 func closeTest() {
@@ -109,4 +131,62 @@ func read(ch1 chan int, ch2 chan bool) {
 	}
 
 	ch2 <- true
+}
+
+func mapTest() {
+
+	println("---->>> map test...")
+
+	// 定义map
+	mp1 := make(map[string]string, 3)
+
+	// 存入数据
+	mp1["k1"] = "v1"
+	mp1["k2"] = "v2"
+	mp1["k3"] = "v3"
+	mp1["k3"] = "v4"
+	mp1["k5"] = "v5"
+
+	fmt.Printf("mp1: %v\n", mp1)
+
+	// 遍历key
+	keys := make([]string, 0, len(mp1))
+	for k := range mp1 {
+		keys = append(keys, k)
+	}
+	fmt.Printf("keys: %v\n", keys)
+
+	mp_len := len(mp1)
+
+	fmt.Printf("mp1 length: %v\n", mp_len)
+
+	// range 遍历
+	for k, v := range mp1 {
+		fmt.Printf("k: %v\n", k)
+		fmt.Printf("v: %v\n", v)
+	}
+
+	// mp 进行for循环清除
+	for k := range mp1 {
+		fmt.Printf("循环删除 k: %v\n", k)
+		delete(mp1, k)
+	}
+
+}
+
+func copyTest() {
+
+	sli1 := []string{"a", "b", "c", "d", "e"}
+
+	fmt.Printf("sli1: %v\n", sli1)
+
+	var sli2 = make([]string, 3)
+
+	fmt.Printf("sli2: %v\n", sli2)
+
+	copy(sli2, sli1)
+	println("--->>> cli1 copy to cli2 <<<---")
+	fmt.Printf("sli1: %v\n", sli1)
+	fmt.Printf("sli2: %v\n", sli2)
+
 }
