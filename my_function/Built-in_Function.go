@@ -19,8 +19,38 @@ func main() {
 	// mapTest()
 
 	// copy
-	copyTest()
+	// copyTest()
 
+	// complex、real、 imag
+	// complexTest()
+
+	// goroutine、panic、recover
+	// goroutineTest()
+	// println("--->>> panic、recover end <<<---")
+
+	// defer 函数
+	// deferA()
+	// deferB()
+	// i := deferC()
+	// fmt.Printf("i: %v\n", i)
+	// 	deferD()
+
+	// r1 := deferC1()
+	// fmt.Printf("r1: %v\n", r1)
+
+	// r2 := deferC2()
+	// fmt.Printf("r2: %v\n", r2)
+
+	// r3 := deferC3()
+	// fmt.Printf("r3: %v\n", r3)
+
+	// deferE()
+
+	// panic
+	// panicTest()
+
+	panicRecoverTest()
+	fmt.Println(" panic recover is run complete")
 }
 
 func init() {
@@ -188,5 +218,117 @@ func copyTest() {
 	println("--->>> cli1 copy to cli2 <<<---")
 	fmt.Printf("sli1: %v\n", sli1)
 	fmt.Printf("sli2: %v\n", sli2)
+
+}
+
+func complexTest() {
+	println("--->>> complex、real、imag <<<---")
+
+	cp := complex(3, 4)
+
+	rl := real(cp)
+
+	fmt.Printf("complex real: %v\n", rl)
+
+	ig := imag(cp)
+	fmt.Printf("complex imag: %v\n", ig)
+
+}
+
+func goroutineTest() {
+
+	println("--->>> panic、recover <<<---")
+
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
+	}()
+	var bar = []int{1}
+	fmt.Println(bar[1])
+
+}
+
+// defer 后进先出
+func deferD() {
+	defer fmt.Println(1)
+	defer fmt.Println(2)
+	defer fmt.Println(3)
+	defer fmt.Println(4)
+}
+
+// 先入栈，值不随着改变
+func deferA() {
+	i := 0
+	defer fmt.Println(i)
+	i++
+	return
+}
+
+// 后进先出
+func deferB() {
+	for i := 0; i < 4; i++ {
+		defer fmt.Print(i)
+	}
+}
+
+// defer函数可以读取和重新赋值函数的命名返回参数
+func deferC() (i int) {
+	defer func() {
+		i++
+	}()
+	return 1
+}
+
+func deferC1() (result int) {
+	defer func() {
+		result++
+	}()
+	return 0
+}
+
+func deferC2() (r int) {
+	t := 5
+	defer func() {
+		t = t + 5
+	}()
+	return t
+}
+
+func deferC3() (r int) {
+	defer func(r int) {
+		r = r + 5
+	}(r)
+	return 1
+}
+
+func deferE() {
+	i := 0
+	defer fmt.Println("a:", i)
+	//闭包调用，将外部i传到闭包中进行计算，不会改变i的值，如上边的例3
+	defer func(i int) {
+		fmt.Println("b:", i)
+	}(i)
+	//闭包调用，捕获同作用域下的i进行计算
+	defer func() {
+		fmt.Println("c:", i)
+	}()
+	i++
+}
+
+// 调用panic终止线程
+func panicTest() {
+	panic("crash")
+}
+
+func panicRecoverTest() {
+
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("err:", err)
+		}
+	}()
+
+	panic("crash")
 
 }
