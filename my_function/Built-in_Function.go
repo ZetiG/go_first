@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"hello/my_function/test_01"
 )
 
 func main() {
+
+	test_01.Test01()
 
 	// append
 	// appendTest()
