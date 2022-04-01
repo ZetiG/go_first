@@ -2,7 +2,7 @@ package test_01
 
 import "fmt"
 
-// 逻辑控制，if/else、for、goto
+// 逻辑控制，if/else、for、goto、值传递、址传递
 func init() {
 
 	// if/else
@@ -16,6 +16,12 @@ func init() {
 
 	// switch
 	switchFunc()
+
+	// 值传递
+	copyVariable()
+
+	// 址传递
+	addrVariable()
 
 	/*
 		// go 函数定义： 可多个参数、多个返回值；
@@ -152,4 +158,40 @@ func switchFunc() {
 	default:
 		fmt.Println("default case")
 	}
+}
+
+// 值传递
+func copyVariable() {
+	x := 3
+	fmt.Println("x = ", x) // 应该输出 "x = 3"
+
+	x1 := copyVariableAdd(x) //调用add1(x)
+
+	fmt.Println("x+1 = ", x1) // 应该输出"x+1 = 4"
+	fmt.Println("x = ", x)    // 应该输出"x = 3"
+}
+
+// CopyVariableAdd 函数接收的是变量的值的副本
+func copyVariableAdd(a int) int {
+	a = a + 1
+	return a
+}
+
+// 址传递
+func addrVariable() {
+	x := 3
+
+	fmt.Println("x = ", x) // 应该输出 "x = 3"
+
+	x1 := addrVariableAdd(&x) // 调用 add1(&x) 传x的地址
+
+	fmt.Println("x+1 = ", x1) // 应该输出 "x+1 = 4"
+	fmt.Println("x = ", x)    // 应该输出 "x = 4"
+
+}
+
+// *int 代表函数接收的是变量的内存地址副本
+func addrVariableAdd(a *int) int {
+	*a = *a + 1
+	return *a
 }
