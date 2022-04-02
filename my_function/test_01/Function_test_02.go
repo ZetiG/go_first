@@ -23,6 +23,12 @@ func init() {
 	// 址传递
 	addrVariable()
 
+	// defer
+	deferFunc()
+
+	// func 函数作为参数
+	funcParamFunc()
+
 	/*
 		// go 函数定义： 可多个参数、多个返回值；
 		// 返回值可不声明变量，只声明类型即可，单个返回值也可去掉括号；
@@ -194,4 +200,54 @@ func addrVariable() {
 func addrVariableAdd(a *int) int {
 	*a = *a + 1
 	return *a
+}
+
+// defer 延迟函数，在函数结束退出前调用，多个defer时， 采用后进先出的方式，类似于栈
+func deferFunc() {
+	a := 1
+	defer println("defer after1 =>> ", a) // 这里最后执行，输出3
+
+	a = 2
+	defer println("defer after2 =>> ", a) // 这里最后执行，输出3
+
+	a = 3
+	defer println("defer after3 =>> ", a) // 这里最后执行，输出3
+
+	a = 4
+	println("defer before4 =>> ", a) // 这里输出4
+
+	a = 5
+	defer println("defer after5 =>> ", a) // 这里最后执行，输出3
+
+	for i := 0; i < 5; i++ {
+		defer println("for defer after i =>> ", i)
+	}
+}
+
+// 测试func 作为参数使用
+func funcParamFunc() {
+	slice := []int{1, 2, 3, 4, 5, 7}
+	fmt.Println("slice = ", slice)
+
+	flt := filter(slice, isMoreThenFive) // 函数当做值来传递了
+	fmt.Println("more then five slice are: ", flt)
+}
+
+type funcParam func(int) bool
+
+// 定义函数，使用func函数作为参数
+func filter(arr []int, fp funcParam) []int {
+	var result []int
+
+	for _, val := range arr {
+		if fp(val) {
+			result = append(result, val)
+		}
+	}
+	return result
+}
+
+// 定义func函数，作为参数
+func isMoreThenFive(a int) bool {
+	return a > 3
 }
