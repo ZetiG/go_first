@@ -1,6 +1,9 @@
 package test_01
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 // 逻辑控制，if/else、for、goto、值传递、址传递
 func init() {
@@ -55,6 +58,13 @@ func init() {
 		func myfunc(arg ...int) {}
 
 	*/
+
+	// panic
+	panicTest()
+
+	// recover
+	ret := throwsPanic(panicTest)
+	println("===>>>>>> panic,recover: ", ret)
 
 }
 
@@ -250,4 +260,24 @@ func filter(arr []int, fp funcParam) []int {
 // 定义func函数，作为参数
 func isMoreThenFive(a int) bool {
 	return a > 3
+}
+
+// panic 异常
+func panicTest() {
+	var user = os.Getenv("USER")
+
+	if user == "" {
+		panic("===>>> get env of user is empty")
+	}
+}
+
+// recover
+func throwsPanic(f func()) (b bool) {
+	defer func() {
+		if x := recover(); x != nil {
+			b = true
+		}
+	}()
+	f() //执行函数f，如果f中出现了panic，那么就可以恢复回来
+	return
 }
