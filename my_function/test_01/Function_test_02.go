@@ -7,6 +7,7 @@ import (
 
 // 逻辑控制，if/else、for、goto、值传递、址传递
 func init() {
+	println("------------------------>>> Test 02 <<<------------------------")
 
 	// if/else
 	ifElseFunc()

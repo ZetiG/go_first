@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hello/my_function/test_01"
+	"my_function/test_01"
 )
 
 func main() {
