@@ -24,17 +24,17 @@ func registerDbDriverTest() {
 	checkErr(err)
 
 	// insert
-	ins := "INSERT INTO t_user(name, age) values(?, ?)"
-	stmt, err := open.Prepare(ins)
-	checkErr(err)
-
-	exec, err := stmt.Exec("lisi", 20)
-	checkErr(err)
-
-	lastInsId, err := exec.LastInsertId()
-	checkErr(err)
-
-	println(lastInsId)
+	//ins := "INSERT INTO t_user(name, age) values(?, ?)"
+	//stmt, err := open.Prepare(ins)
+	//checkErr(err)
+	//
+	//exec, err := stmt.Exec("lisi", 20)
+	//checkErr(err)
+	//
+	//lastInsId, err := exec.LastInsertId()
+	//checkErr(err)
+	//
+	//println(lastInsId)
 
 	// select
 	rows, err := open.Query("SELECT * FROM t_user")
