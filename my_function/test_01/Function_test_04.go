@@ -2,6 +2,7 @@ package test_01
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -22,26 +23,36 @@ func registerDbDriverTest() {
 	open, err := sql.Open(dbDriverName, dbName)
 	checkErr(err)
 
-	//创建表
-	sql_table := `
-    CREATE TABLE IF NOT EXISTS t_user(
-        id INT(10) PRIMARY KEY AUTOINCREMENT,
-        name VARCHAR(64) DEFAULT NULL,
-        age INT(2) DEFAULT NULL
-    );`
-	open.Exec(sql_table)
-
+	// insert
 	ins := "INSERT INTO t_user(name, age) values(?, ?)"
 	stmt, err := open.Prepare(ins)
 	checkErr(err)
 
-	exec, err := stmt.Exec("zhangsan", 18)
+	exec, err := stmt.Exec("lisi", 20)
 	checkErr(err)
 
 	lastInsId, err := exec.LastInsertId()
 	checkErr(err)
 
 	println(lastInsId)
+
+	// select
+	rows, err := open.Query("SELECT * FROM t_user")
+	checkErr(err)
+
+	for rows.Next() {
+		var id int
+		var name string
+		var age int
+
+		err = rows.Scan(&id, &name, &age)
+		checkErr(err)
+
+		fmt.Print(id)
+		fmt.Print(name)
+		fmt.Println(age)
+
+	}
 
 }
 
