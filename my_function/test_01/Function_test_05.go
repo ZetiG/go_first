@@ -17,6 +17,9 @@ func init() {
 
 	// get
 	redisGet(rdb, ctx)
+
+	// close
+	redisClose(rdb, ctx)
 }
 
 // 连接
@@ -47,8 +50,16 @@ func redisOperator(rdb *redis.Client, ctx context.Context) {
 
 // get
 func redisGet(rdb *redis.Client, ctx context.Context) {
-	val, err := rdb.Get(ctx, "key_123").Result()
+	key := "key_123"
+	val, err := rdb.Get(ctx, key).Result()
 	checkErr(err)
 
-	fmt.Println("key", val)
+	fmt.Println(key, val)
+}
+
+// close
+func redisClose(rdb *redis.Client, ctx context.Context) {
+
+	err := rdb.Close()
+	checkErr(err)
 }
