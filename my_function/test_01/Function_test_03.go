@@ -16,7 +16,7 @@ func init() {
 	var per person
 	println(per.name)
 
-	httpTest()
+	// httpTest()
 
 }
 
